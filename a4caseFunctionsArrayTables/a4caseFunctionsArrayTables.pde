@@ -1,4 +1,6 @@
 // Alphaponics by Sam Legros
+// TO DO
+// Create more cases, either at front or end, that act as switching function to switch between loaded tables
 
 int weekCounter;
 int prog;
