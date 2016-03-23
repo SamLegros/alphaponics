@@ -1,6 +1,7 @@
 // Alphaponics by Sam Legros
-// TO DO
-// Create more cases (or class?, either at front or end, that act as switching function to switch between loaded tables
+
+// DONE
+// ALL Calgary Values
 
 int weekCounter;
 int prog;
@@ -20,6 +21,8 @@ Table[] calgaryTables;
 
 Timer timer;
 
+Table homemadeTable;
+
 void setup() {
   size(600, 600);
   background(255);
@@ -31,10 +34,13 @@ void setup() {
     calgaryTables[i] = loadTable("calgary_ab/daily_calgary_ab_" + i + ".csv");
   }
 
+  homemadeTable = new Table();
+  homemadeTable.addColumn("value");
+
   savedX = new int[53];
   savedValues = new int[53];
 
-  getValues(calgaryTables[1]);
+  getValues(calgaryTables[4]);
 
   timer = new Timer(00);
   timer.start();
@@ -66,7 +72,7 @@ void draw() {
   for (int i=0; i < switchCounterConstrain; i++) {
     ellipse(savedX[i], savedValues[i]+height/2, 1, 1);
   }
-}
+} // End of draw()
 
 void getValues(Table table) {
   // Scan through all of the rows in the table
@@ -82,6 +88,8 @@ void getValues(Table table) {
       int day5 = i-2;
       int day6 = i-1;
       int day7 = i;
+
+      println(table.getInt(1, 1)); 
 
       // MINIMUM TEMPERATURE ==================================================================================================================================================================================================================================================================
       // Save the minimum temperatures of the previous days in the past week
@@ -283,6 +291,9 @@ void getValues(Table table) {
       } else {
       }
 
+      //println(growStatus);
+      //println(currentWeek);
+      homemadeTable.setInt(currentWeek, "value", growStatus);
       growStatus = prog-retro;
       xCoordinateCounter = xCoordinateCounter+10;
 
@@ -290,6 +301,9 @@ void getValues(Table table) {
       savedValues[currentWeek] = growStatus;
       //ellipse(xCoordinateCounter, growStatus+height/2, 1, 1);
 
+      if (currentWeek == 52) {
+        saveTable(homemadeTable, "data/01homemade/" + table + ".csv");
+      }
       //if (currentWeek == 52) {
       //  screenDraw(screenNum);
       //} // of if(currentWeek == 52)
