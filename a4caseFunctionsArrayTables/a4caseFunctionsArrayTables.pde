@@ -1,7 +1,9 @@
 // Alphaponics by Sam Legros
 
 // DONE
-// ALL Calgary Values
+// Calgary, Charlottetown, Edmonton, Fredericton, Halifax, Iqaluit, Montreal
+// Ottawa, Quebec, Regina, Saskatoon, St Johns, Thunder Bay, Toronto
+// Vancouver, Whitehorse, Winnipeg, Yellowknife
 
 int weekCounter;
 int prog;
@@ -29,19 +31,19 @@ void setup() {
   fill(0);
   line(0, height/2, width, height/2);
 
-  tables = new Table[5];
+  tables = new Table[21];
   for (int i = 0; i < tables.length; i++) {
-    tables[i] = loadTable("calgary_ab/daily_calgary_ab_" + i + ".csv");
+    tables[i] = loadTable("winnipeg_mb/daily_winnipeg_mb_" + i + ".csv");
   }
 
   homemadeTable = new Table();
   homemadeTable.addColumn("0");
-  homemadeTable.addColumn("2012");
+  homemadeTable.addColumn("2015");
 
   savedX = new int[53];
   savedValues = new int[53];
 
-  getValues(tables[0]);
+  getValues(tables[20]);
 
   timer = new Timer(00);
   timer.start();
@@ -303,7 +305,7 @@ void getValues(Table table) {
       //ellipse(xCoordinateCounter, growStatus+height/2, 1, 1);
 
       if (currentWeek == 52) {
-        saveTable(homemadeTable, "data/homemade/"+ table + ".csv");
+        saveTable(homemadeTable, "data/ahomemade/"+ table + ".csv");
       }
       //if (currentWeek == 52) {
       //  screenDraw(screenNum);
