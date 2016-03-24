@@ -40,7 +40,7 @@ void setup() {
   savedX = new int[53];
   savedValues = new int[53];
 
-  getValues(calgaryTables[4]);
+  getValues(calgaryTables[0]);
 
   timer = new Timer(00);
   timer.start();
@@ -293,7 +293,7 @@ void getValues(Table table) {
 
       //println(growStatus);
       //println(currentWeek);
-      homemadeTable.setInt(currentWeek, "value", growStatus);
+      homemadeTable.setInt(currentWeek-1, "value", growStatus);
       growStatus = prog-retro;
       xCoordinateCounter = xCoordinateCounter+10;
 
@@ -302,7 +302,7 @@ void getValues(Table table) {
       //ellipse(xCoordinateCounter, growStatus+height/2, 1, 1);
 
       if (currentWeek == 52) {
-        saveTable(homemadeTable, "data/01homemade/" + table + ".csv");
+        saveTable(homemadeTable, "data/homemade/"+ table + ".csv");
       }
       //if (currentWeek == 52) {
       //  screenDraw(screenNum);
