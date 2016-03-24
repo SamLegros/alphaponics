@@ -1,35 +1,43 @@
 float theta;
 
-Table calgaryTable;
-int calgaryTableRowCount;
+Table[] calgaryTables;
 IntList calgaryValues;
 int calgaryRowValue;
 
 int animationCounter;
+int tableSwitch;
 
 void setup() {
   size(640, 360);
 
-  calgaryTable = loadTable("homemade/2012_calgary.csv");
-  calgaryTableRowCount = calgaryTable.getRowCount();
-
-  calgaryValues = new IntList();
-
-  for (int i = 0; i < calgaryTableRowCount; i++) {
-    calgaryRowValue = calgaryTable.getInt(i, 0); // Get values from table
-    //println(rowValue);
-    calgaryValues.set(i, calgaryRowValue); // Set values from table into index
-    //println(calgaryValues.get(i));
+  //calgaryValues = new IntList();
+  calgaryTables = new Table[5];
+  for (int i = 0; i < calgaryTables.length; i++ ) {
+    calgaryTables[i] = loadTable("homemade/calgary_ab_" + i + ".csv");
   }
+  println(calgaryTables.length);
+
+  //for (int i = 0; i < calgaryTables[i].getRowCount(); i++) { // Search through all rows in table
+  //  calgaryRowValue = calgaryTables[i].getInt(i, 0); // Get values from table
+  //  calgaryValues.set(i, calgaryRowValue); // Set values from table into index
+  //}
 } // End of setup()
 
 void draw() {
   background(255);
-  int mx = constrain(animationCounter, 0, calgaryTable.getRowCount()-1);
-
+  int mx = constrain(animationCounter, 0, calgaryTables[tableSwitch].getRowCount());
   animationCounter++;
+  theta = map(calgaryTables[tableSwitch].getInt(mx, 0), 0, 100, 0, PI/2);
+  println(calgaryTables[tableSwitch].getInt(mx, 0));
 
-  theta = map(calgaryValues.get(mx), 0, width, 0, PI/2);
+  if (animationCounter == calgaryTables[tableSwitch].getRowCount()) {
+    tableSwitch++;
+    animationCounter = 0;
+    println(tableSwitch);
+  } else if (tableSwitch == calgaryTables.length-1) {
+    tableSwitch = 0;
+    animationCounter = 0;
+  }
 
   //theta = map(mouseX,0,width,0,PI/2); // Maps theta between 0 degrees and 90 degrees
 
