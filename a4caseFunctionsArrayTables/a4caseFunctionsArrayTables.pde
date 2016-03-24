@@ -17,7 +17,7 @@ int switchCounter;
 int switchCounterConstrain = constrain(switchCounter, 0, 52);
 int delay = 100;
 
-Table[] calgaryTables;
+Table[] tables;
 
 Timer timer;
 
@@ -29,18 +29,19 @@ void setup() {
   fill(0);
   line(0, height/2, width, height/2);
 
-  calgaryTables = new Table[5];
-  for (int i = 0; i < calgaryTables.length; i++) {
-    calgaryTables[i] = loadTable("calgary_ab/daily_calgary_ab_" + i + ".csv");
+  tables = new Table[5];
+  for (int i = 0; i < tables.length; i++) {
+    tables[i] = loadTable("calgary_ab/daily_calgary_ab_" + i + ".csv");
   }
 
   homemadeTable = new Table();
-  homemadeTable.addColumn("value");
+  homemadeTable.addColumn("0");
+  homemadeTable.addColumn("2012");
 
   savedX = new int[53];
   savedValues = new int[53];
 
-  getValues(calgaryTables[0]);
+  getValues(tables[0]);
 
   timer = new Timer(00);
   timer.start();
@@ -293,7 +294,7 @@ void getValues(Table table) {
 
       //println(growStatus);
       //println(currentWeek);
-      homemadeTable.setInt(currentWeek-1, "value", growStatus);
+      homemadeTable.setInt(currentWeek-1, "0", growStatus);
       growStatus = prog-retro;
       xCoordinateCounter = xCoordinateCounter+10;
 
