@@ -43,7 +43,7 @@ void setup() {
   savedX = new int[53];
   savedValues = new int[53];
 
-  getValues(tables[20]);
+  getValues(tables[7]);
 
   timer = new Timer(00);
   timer.start();

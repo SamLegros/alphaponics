@@ -130,6 +130,7 @@ void setup() {
 
 void draw() {
   background(255);
+  frameRate(60);
   //animateLoop(calgaryTables);
   //animateLoop(charlottetownTables);
   //animateLoop(edmontonTables);
@@ -172,6 +173,7 @@ void animateLoop(Table[] table) {
   translate(width/2, height);
   stroke(0);
   branch(100);
+  saveFrame("yellowknife" + "SavedFrames/####.png");
 }
 
 void branch(float len) {
