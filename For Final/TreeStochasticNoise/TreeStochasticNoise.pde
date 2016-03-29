@@ -21,7 +21,7 @@ void draw() {
   stroke(0);
   // Start the tree from the bottom of the screen
   translate(width/2, height);
-  // Move alogn through noise
+  // Move along through noise
   yoff += 0.005;
   randomSeed(seed);
   // Start the recursive branching!
@@ -68,4 +68,3 @@ void branch(float h, float xoff) {
     }
   }
 }
-
