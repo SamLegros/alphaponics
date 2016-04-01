@@ -1,6 +1,7 @@
 // Stochastic Tree with angles fluctuating with Perlin noise
 // Daniel Shiffman <http://www.shiffman.net>
 // Nature of Code, Chapter 8
+// Hack code
 
 // Perlin noise offset 
 float yoff = 0;
@@ -9,14 +10,14 @@ int seed = 5;
 
 
 void setup() {
-  size(800, 200);
+  size(500, 500);
   smooth();
 }
 
 void draw() {
   background(255);
   fill(0);
-  //text("Click mouse to generate a new tree", 10, height-20);
+  text("Click mouse to generate a new tree", 10, height-20);
 
   stroke(0);
   // Start the tree from the bottom of the screen
@@ -25,7 +26,7 @@ void draw() {
   yoff += 0.005;
   randomSeed(seed);
   // Start the recursive branching!
-  branch(60, 0);
+  branch(100, 0);
 }
 
 
