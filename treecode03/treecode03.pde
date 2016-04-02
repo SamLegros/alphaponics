@@ -131,7 +131,7 @@ void setup() {
 void draw() {
   background(255);
   frameRate(60);
-  //animateLoop(calgaryTables);
+  animateLoop(calgaryTables);
   //animateLoop(charlottetownTables);
   //animateLoop(edmontonTables);
   //animateLoop(frederictonTables);
@@ -150,7 +150,7 @@ void draw() {
   //animateLoop(victoriaTables);
   //animateLoop(whitehorseTables);
   //animateLoop(winnipegTables);
-  animateLoop(yellowknifeTables);
+  //animateLoop(yellowknifeTables);
 } // End of draw()
 
 void animateLoop(Table[] table) {
