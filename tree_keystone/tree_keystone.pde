@@ -1,3 +1,5 @@
+// Using Keystone to create multiple windows
+
 import deadpixel.keystone.*;
 
 Keystone ks;
