@@ -27,7 +27,7 @@ void setup() {
 void draw() {
   calgaryScreen.beginDraw();
   calgaryScreen.background(255);
-  animateLoop(calgaryTables);
+  animateLoop(calgaryTables, calgaryScreen);
   calgaryScreen.endDraw();
 
   background(0);
@@ -35,7 +35,7 @@ void draw() {
   calgarySurface.render(calgaryScreen);
 } // END OF DRAW =====================================================================================
 
-void animateLoop(Table[] table) {
+void animateLoop(Table[] table, PGraphics screen) {
   fill(0);
 
   int mx = constrain(animationCounter, 0, table[tableSwitch].getRowCount());
@@ -50,30 +50,30 @@ void animateLoop(Table[] table) {
     tableSwitch = 0;
     animationCounter = 0;
   }
-  calgaryScreen.translate(calgaryScreen.width/2, calgaryScreen.height);
-  calgaryScreen.stroke(0);
-  branch(60);
+  screen.translate(screen.width/2, screen.height);
+  screen.stroke(0);
+  branch(60, screen);
 }
 
-void branch(float len) {
+void branch(float len, PGraphics screen) {
 
   float sw = map(len, 2, 120, 1, 10);
-  calgaryScreen.strokeWeight(sw);
+  screen.strokeWeight(sw);
 
-  calgaryScreen.line(0, 0, 0, -len);
-  calgaryScreen.translate(0, -len);
+  screen.line(0, 0, 0, -len);
+  screen.translate(0, -len);
 
   len *= 0.66;
   if (len > 2) {
     calgaryScreen.pushMatrix();    // Save the current state of transformation (i.e. where are we now)
     calgaryScreen.rotate(theta);   // Rotate by theta
-    branch(len);       // Ok, now call myself to draw two new branches!!
-    calgaryScreen.popMatrix();     // Whenever we get back here, we "pop" in order to restore the previous matrix state
+    branch(len, screen);       // Ok, now call myself to draw two new branches!!
+    screen.popMatrix();     // Whenever we get back here, we "pop" in order to restore the previous matrix state
 
-    calgaryScreen.pushMatrix();
-    calgaryScreen.rotate(-theta);
-    branch(len);
-    calgaryScreen.popMatrix();
+    screen.pushMatrix();
+    screen.rotate(-theta);
+    branch(len, screen);
+    screen.popMatrix();
   }
 }
 
