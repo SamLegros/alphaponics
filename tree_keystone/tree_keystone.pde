@@ -2,15 +2,23 @@
 
 import deadpixel.keystone.*;
 
+float theta;
+int animationCounter;
+int tableSwitch;
+
 Keystone ks;
 CornerPinSurface calgarySurface;
 PGraphics calgaryScreen;
 
-Table[] calgaryTables;
+CornerPinSurface charlottetownSurface;
+PGraphics charlottetownScreen;
 
-float theta;
-int animationCounter;
-int tableSwitch;
+CornerPinSurface edmontonSurface;
+PGraphics edmontonScreen;
+
+Table[] calgaryTables;
+Table[] charlottetownTables;
+Table[] edmontonTables;
 
 void setup() {
   size(800, 600, P3D);
@@ -20,21 +28,52 @@ void setup() {
   calgarySurface = ks.createCornerPinSurface(400, 300, 20);
   calgaryScreen = createGraphics(400, 300, P3D);
 
+  charlottetownSurface = ks.createCornerPinSurface(400, 300, 20);
+  charlottetownSurface.moveTo(width/2, 0);
+  charlottetownScreen = createGraphics(400, 300, P3D);
+
+  edmontonSurface = ks.createCornerPinSurface(400, 300, 20);
+  edmontonSurface.moveTo(0, height/2);
+  edmontonScreen = createGraphics(400, 300, P3D);
+
   calgaryTables = new Table[5];
   for (int i = 0; i < calgaryTables.length; i++ ) {
     calgaryTables[i] = loadTable("calgary_ab/calgary_ab_" + i + ".csv");
   }
+
+  charlottetownTables = new Table[5];
+  for (int i = 0; i < charlottetownTables.length; i++ ) {
+    charlottetownTables[i] = loadTable("charlottetown_pei/charlottetown_pei_" + i + ".csv");
+  }
+
+  edmontonTables = new Table[21];
+  for (int i = 0; i < edmontonTables.length; i++ ) {
+    edmontonTables[i] = loadTable("edmonton_ab/edmonton_ab_" + i + ".csv");
+  }
 } // END OF SETUP ===================================================================================
 
 void draw() {
+  frameRate(10);
   calgaryScreen.beginDraw();
   calgaryScreen.background(255);
   animateLoop(calgaryTables, calgaryScreen);
   calgaryScreen.endDraw();
 
+  charlottetownScreen.beginDraw();
+  charlottetownScreen.background(255);
+  animateLoop(charlottetownTables, charlottetownScreen);
+  charlottetownScreen.endDraw();
+  
+  edmontonScreen.beginDraw();
+  edmontonScreen.background(255);
+  animateLoop(edmontonTables, edmontonScreen);
+  edmontonScreen.endDraw();
+
   background(0);
 
   calgarySurface.render(calgaryScreen);
+  charlottetownSurface.render(charlottetownScreen);
+  edmontonSurface.render(edmontonScreen);
 } // END OF DRAW =====================================================================================
 
 void animateLoop(Table[] table, PGraphics screen) {
@@ -67,8 +106,8 @@ void branch(float len, PGraphics screen) {
 
   len *= 0.66;
   if (len > 2) {
-    calgaryScreen.pushMatrix();    // Save the current state of transformation (i.e. where are we now)
-    calgaryScreen.rotate(theta);   // Rotate by theta
+    screen.pushMatrix();    // Save the current state of transformation (i.e. where are we now)
+    screen.rotate(theta);   // Rotate by theta
     branch(len, screen);       // Ok, now call myself to draw two new branches!!
     screen.popMatrix();     // Whenever we get back here, we "pop" in order to restore the previous matrix state
 
