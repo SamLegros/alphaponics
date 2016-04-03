@@ -18,6 +18,9 @@ PGraphics charlottetownScreen;
 CornerPinSurface edmontonSurface;
 PGraphics edmontonScreen;
 
+CornerPinSurface[] surface = new CornerPinSurface[21];
+PGraphics[] screen = new PGraphics[21];
+
 PImage canada;
 
 Table[] calgaryTables;
@@ -30,6 +33,18 @@ void setup() {
   background(255);
 
   ks = new Keystone(this);
+
+  for (int i = 1; i < surface.length; i++) {
+    surface[i] = ks.createCornerPinSurface(screenSize, screenSize, 20);
+    surface[i].moveTo(screenSize*i, 0);
+    println("surface " + i);
+  }
+
+  for (int i = 1; i < screen.length; i++) {
+    screen[i] = createGraphics(screenSize, screenSize, P3D);
+    println("screen " + i);
+  }
+
   calgarySurface = ks.createCornerPinSurface(screenSize, screenSize, 20);
   calgaryScreen = createGraphics(screenSize, screenSize, P3D);
 
@@ -58,26 +73,37 @@ void setup() {
 } // END OF SETUP ===================================================================================
 
 void draw() {
-  calgaryScreen.beginDraw();
-  calgaryScreen.background(255);
-  animateLoop(calgaryTables, calgaryScreen);
-  calgaryScreen.endDraw();
+  
+  for (int i = 1; i < screen.length; i++) {
+    screen[i].beginDraw();
+    screen[i].background(random(0, 255));
+    screen[i].endDraw();
+  }
+  
+  //calgaryScreen.beginDraw();
+  //calgaryScreen.background(255);
+  //animateLoop(calgaryTables, calgaryScreen);
+  //calgaryScreen.endDraw();
 
-  charlottetownScreen.beginDraw();
-  charlottetownScreen.background(255);
-  animateLoop(charlottetownTables, charlottetownScreen);
-  charlottetownScreen.endDraw();
+  //charlottetownScreen.beginDraw();
+  //charlottetownScreen.background(255);
+  //animateLoop(charlottetownTables, charlottetownScreen);
+  //charlottetownScreen.endDraw();
 
-  edmontonScreen.beginDraw();
-  edmontonScreen.background(255);
-  animateLoop(edmontonTables, edmontonScreen);
-  edmontonScreen.endDraw();
+  //edmontonScreen.beginDraw();
+  //edmontonScreen.background(255);
+  //animateLoop(edmontonTables, edmontonScreen);
+  //edmontonScreen.endDraw();
 
   background(0);
+  
+  for (int i = 1; i < surface.length; i++) {
+   surface[i].render(screen[i]);
+  }
 
-  calgarySurface.render(calgaryScreen);
-  charlottetownSurface.render(charlottetownScreen);
-  edmontonSurface.render(edmontonScreen);
+  //calgarySurface.render(calgaryScreen);
+  //charlottetownSurface.render(charlottetownScreen);
+  //edmontonSurface.render(edmontonScreen);
 } // END OF DRAW =====================================================================================
 
 void animateLoop(Table[] table, PGraphics screen) {
