@@ -6,6 +6,8 @@ float theta;
 int animationCounter;
 int tableSwitch;
 
+int screenSize = 75;
+
 Keystone ks;
 CornerPinSurface calgarySurface;
 PGraphics calgaryScreen;
@@ -16,25 +18,28 @@ PGraphics charlottetownScreen;
 CornerPinSurface edmontonSurface;
 PGraphics edmontonScreen;
 
+PImage canada;
+
 Table[] calgaryTables;
 Table[] charlottetownTables;
 Table[] edmontonTables;
 
 void setup() {
-  size(800, 600, P3D);
+  size(1575, 75, P3D);
+  frameRate(20);
   background(255);
 
   ks = new Keystone(this);
-  calgarySurface = ks.createCornerPinSurface(400, 300, 20);
-  calgaryScreen = createGraphics(400, 300, P3D);
+  calgarySurface = ks.createCornerPinSurface(screenSize, screenSize, 20);
+  calgaryScreen = createGraphics(screenSize, screenSize, P3D);
 
-  charlottetownSurface = ks.createCornerPinSurface(400, 300, 20);
-  charlottetownSurface.moveTo(width/2, 0);
-  charlottetownScreen = createGraphics(400, 300, P3D);
+  charlottetownSurface = ks.createCornerPinSurface(screenSize, screenSize, 20);
+  charlottetownSurface.moveTo(screenSize*1, 0);
+  charlottetownScreen = createGraphics(screenSize, screenSize, P3D);
 
-  edmontonSurface = ks.createCornerPinSurface(400, 300, 20);
-  edmontonSurface.moveTo(0, height/2);
-  edmontonScreen = createGraphics(400, 300, P3D);
+  edmontonSurface = ks.createCornerPinSurface(screenSize, screenSize, 20);
+  edmontonSurface.moveTo(screenSize*2, 0);
+  edmontonScreen = createGraphics(screenSize, screenSize, P3D);
 
   calgaryTables = new Table[5];
   for (int i = 0; i < calgaryTables.length; i++ ) {
@@ -53,7 +58,6 @@ void setup() {
 } // END OF SETUP ===================================================================================
 
 void draw() {
-  frameRate(10);
   calgaryScreen.beginDraw();
   calgaryScreen.background(255);
   animateLoop(calgaryTables, calgaryScreen);
@@ -63,7 +67,7 @@ void draw() {
   charlottetownScreen.background(255);
   animateLoop(charlottetownTables, charlottetownScreen);
   charlottetownScreen.endDraw();
-  
+
   edmontonScreen.beginDraw();
   edmontonScreen.background(255);
   animateLoop(edmontonTables, edmontonScreen);
@@ -93,7 +97,7 @@ void animateLoop(Table[] table, PGraphics screen) {
   }
   screen.translate(screen.width/2, screen.height);
   screen.stroke(0);
-  branch(60, screen);
+  branch(20, screen);
 }
 
 void branch(float len, PGraphics screen) {
