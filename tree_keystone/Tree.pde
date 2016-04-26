@@ -2,6 +2,12 @@ class Tree {
 
   int id;
 
+  float oldLine = 0.0;
+  float newLine;
+
+  float xoff = 0.0;
+  float xincrement = 0.01; 
+
   CornerPinSurface surface;    // Create array of [amount] Keystone Surfaces
   PGraphics screen;    // Create array of [amount] Keystone Screens
   Table table;    // Create array of [amount] Tables
@@ -11,6 +17,8 @@ class Tree {
     surface = _surface;
     screen = _screen;
     table = loadTable(_i + ".csv");    // Load  Table that match with i's value
+    newLine = table.getInt(0, 0);
+    // If table value is negative, force to be 0;
   }
 
   void screenTree() {
@@ -27,13 +35,13 @@ class Tree {
 
   void animateLoop(Table table, PGraphics screen) {
     fill(0);
-    int mx = constrain(animationCounter, 0, table.getRowCount());    // Constrain mx between 0 and amount of rows in Table with corresponding i value
+    int mx = constrain(animationCounter, 0, table.getRowCount()-1);    // Constrain mx between 0 and amount of rows in Table with corresponding i value
     animationCounter++;    // +1 to the row counter
     if (animationCounter == table.getRowCount()) {    // If end of row is reached
       animationCounter = 0;    // Reset row count (run from beginning of table value)
     }
     theta = map(table.getInt(mx, 0), 0, 500, 0, PI/2);    // Map angle of new branch spawn to value from table
-    println(table.getInt(mx, 0));
+    //println(table.getInt(mx, 0));
 
     screen.translate(screen.width/2, screen.height);    // Translate tree to center of Keystone Screen
     screen.stroke(0);

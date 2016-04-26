@@ -13,14 +13,16 @@ PGraphics screen;    // Create array of [amount] Keystone Screens
 Table table;    // Create array of [amount] Tables
 
 Tree[] tree;
+Timer timer;
 
-
+int switchCounter = 1;
+//int switchCounterConstrain = constrain(switchCounter, 0, 52);
 
 
 
 void setup() {
   size(1500, 75, P3D);
-  frameRate(20);
+  frameRate(60);
   background(255);
 
   ks = new Keystone(this);    // Load Keystone
@@ -32,6 +34,9 @@ void setup() {
     screen = createGraphics(screenSize, screenSize, P3D);    // Create new Screen with ScreenSize size
     tree[i] = new Tree(i, surface, screen);
   }
+
+  timer = new Timer(100);
+  timer.start();
 } // END OF SETUP ===================================================================================
 
 
@@ -39,14 +44,31 @@ void setup() {
 
 
 void draw() {
+
+  if (timer.isFinished() == true) {
   for (int i = 1; i < tree.length; i++) {    // Parse through amount of Screens in array created
-    tree[i].screenTree();
+   tree[i].screenTree();
   }
 
   for (int i = 1; i < tree.length; i++) {    // Parse through amount of Surfaces in array created
-    //surface[i].render(screen[i]);    // Render Surface with corresponding i value
-    tree[i].surfaceTree();
+   //surface[i].render(screen[i]);    // Render Surface with corresponding i value
+   tree[i].surfaceTree();
   }
+    //switchCounter++;
+    //if (switchCounter == 21) {
+    //  switchCounter = 1;
+    //}
+    timer.start(); // "restart" the timer
+  }
+
+  //for (int i = 1; i < tree.length; i++) {    // Parse through amount of Screens in array created
+  //  tree[i].screenTree();
+  //}
+
+  //for (int i = 1; i < tree.length; i++) {    // Parse through amount of Surfaces in array created
+  //  //surface[i].render(screen[i]);    // Render Surface with corresponding i value
+  //  tree[i].surfaceTree();
+  //}
 } // END OF DRAW =====================================================================================
 
 
