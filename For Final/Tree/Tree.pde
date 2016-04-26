@@ -1,52 +1,40 @@
-// Recursive Tree
-// Daniel Shiffman <http://www.shiffman.net>
-// Nature of Code, Chapter 8
-
-// Renders a simple tree-like structure via recursion
-// Branching angle calculated as a function of horizontal mouse location
-
-float theta;   
+float theta;
+int frameCounter;
 
 void setup() {
-  size(300, 200);
+  size(700, 600);
   smooth();
+  frameRate(30);
 }
 
 void draw() {
   background(255);
-  // Let's pick an angle 0 to 90 degrees based on the mouse position
-  theta = map(mouseX,0,width,0,PI/2);
+  frameCounter += 1;
+  theta = map(frameCounter, 0, width, 0, PI/2);
 
-  // Start the tree from the bottom of the screen
   translate(width/2, height);
   stroke(0);
-  branch(60);
+  branch(200, int(random(0, 256)));
 }
 
-void branch(float len) {
-  // Each branch will be 2/3rds the size of the previous one
-
-  float sw = map(len,2,120,1,10);
+void branch(float len, int c) {
+  float sw = map(len, 2, 120, 1, 10);
   strokeWeight(sw);
-      
+  stroke(c);
   line(0, 0, 0, -len);
   // Move to the end of that line
   translate(0, -len);
 
   len *= 0.66;
-  // All recursive functions must have an exit condition!!!!
-  // Here, ours is when the length of the branch is 2 pixels or less
   if (len > 2) {
     pushMatrix();    // Save the current state of transformation (i.e. where are we now)
     rotate(theta);   // Rotate by theta
-    branch(len);       // Ok, now call myself to draw two new branches!!
+    branch(len, c);       // Ok, now call myself to draw two new branches!!
     popMatrix();     // Whenever we get back here, we "pop" in order to restore the previous matrix state
 
-    // Repeat the same thing, only branch off to the "left" this time!
     pushMatrix();
     rotate(-theta);
-    branch(len);
+    branch(len, c);
     popMatrix();
   }
 }
-

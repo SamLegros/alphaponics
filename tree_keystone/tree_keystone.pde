@@ -1,98 +1,92 @@
-import deadpixel.keystone.*;
+// Sam Legros
 
-Keystone ks;
-CornerPinSurface calgarySurface;
-PGraphics calgaryScreen;
+import deadpixel.keystone.*;    // Load Keystone library
 
-Table[] calgaryTables;
+float theta;    // Angle for producing tree branch
+int animationCounter;    // Counter to parse through rows in table
+int tableSwitch;    // Counter to switch table once end has been reached
+int screenSize = 75;    // Size [amount] of each Keystone screen
 
-float theta;
-int animationCounter;
-int tableSwitch;
+Keystone ks; // Initialize Keystone
+CornerPinSurface surface;    // Create array of [amount] Keystone Surfaces
+PGraphics screen;    // Create array of [amount] Keystone Screens
+Table table;    // Create array of [amount] Tables
+
+Tree[] tree;
+Timer timer;
+
+int switchCounter = 1;
+//int switchCounterConstrain = constrain(switchCounter, 0, 52);
+
+
 
 void setup() {
-  size(800, 600, P3D);
+  size(1500, 75, P3D);
+  frameRate(60);
   background(255);
 
-  ks = new Keystone(this);
-  calgarySurface = ks.createCornerPinSurface(400, 300, 20);
-  calgaryScreen = createGraphics(400, 300, P3D);
+  ks = new Keystone(this);    // Load Keystone
 
-  calgaryTables = new Table[5];
-  for (int i = 0; i < calgaryTables.length; i++ ) {
-    calgaryTables[i] = loadTable("calgary_ab/calgary_ab_" + i + ".csv");
+  tree = new Tree[21];
+  for (int i = 1; i < tree.length; i++) {
+    surface = ks.createCornerPinSurface(screenSize, screenSize, 20);    // Create new Surface with ScreenSize size
+    surface.moveTo(screenSize*i-screenSize, 0);    // Move Surface accordingly
+    screen = createGraphics(screenSize, screenSize, P3D);    // Create new Screen with ScreenSize size
+    tree[i] = new Tree(i, surface, screen);
   }
+
+  timer = new Timer(100);
+  timer.start();
 } // END OF SETUP ===================================================================================
 
+
+
+
+
 void draw() {
-  calgaryScreen.beginDraw();
-  calgaryScreen.background(255);
-  animateLoop(calgaryTables, calgaryScreen);
-  calgaryScreen.endDraw();
 
-  background(0);
+  if (timer.isFinished() == true) {
+  for (int i = 1; i < tree.length; i++) {    // Parse through amount of Screens in array created
+   tree[i].screenTree();
+  }
 
-  calgarySurface.render(calgaryScreen);
+  for (int i = 1; i < tree.length; i++) {    // Parse through amount of Surfaces in array created
+   //surface[i].render(screen[i]);    // Render Surface with corresponding i value
+   tree[i].surfaceTree();
+  }
+    //switchCounter++;
+    //if (switchCounter == 21) {
+    //  switchCounter = 1;
+    //}
+    timer.start(); // "restart" the timer
+  }
+
+  //for (int i = 1; i < tree.length; i++) {    // Parse through amount of Screens in array created
+  //  tree[i].screenTree();
+  //}
+
+  //for (int i = 1; i < tree.length; i++) {    // Parse through amount of Surfaces in array created
+  //  //surface[i].render(screen[i]);    // Render Surface with corresponding i value
+  //  tree[i].surfaceTree();
+  //}
 } // END OF DRAW =====================================================================================
 
-void animateLoop(Table[] table, PGraphics screen) {
-  fill(0);
 
-  int mx = constrain(animationCounter, 0, table[tableSwitch].getRowCount());
-  animationCounter++;
-  theta = map(table[tableSwitch].getInt(mx, 0), 0, 500, 0, PI/2);
-  println(table[tableSwitch].getInt(mx, 0));
 
-  if (animationCounter == table[tableSwitch].getRowCount()) {
-    tableSwitch++;
-    animationCounter = 0;
-  } else if (tableSwitch == table.length-1) {
-    tableSwitch = 0;
-    animationCounter = 0;
-  }
-  screen.translate(screen.width/2, screen.height);
-  screen.stroke(0);
-  branch(60, screen);
-}
 
-void branch(float len, PGraphics screen) {
-
-  float sw = map(len, 2, 120, 1, 10);
-  screen.strokeWeight(sw);
-
-  screen.line(0, 0, 0, -len);
-  screen.translate(0, -len);
-
-  len *= 0.66;
-  if (len > 2) {
-    calgaryScreen.pushMatrix();    // Save the current state of transformation (i.e. where are we now)
-    calgaryScreen.rotate(theta);   // Rotate by theta
-    branch(len, screen);       // Ok, now call myself to draw two new branches!!
-    screen.popMatrix();     // Whenever we get back here, we "pop" in order to restore the previous matrix state
-
-    screen.pushMatrix();
-    screen.rotate(-theta);
-    branch(len, screen);
-    screen.popMatrix();
-  }
-}
 
 void keyPressed() {
   switch(key) {
   case 'c':
-    // enter/leave calibration mode, where surfaces can be warped 
-    // and moved
-    ks.toggleCalibration();
+    ks.toggleCalibration();    // Enter/Exit the calibration mode, where surfaces can be warped and moved
     break;
 
   case 'l':
-    // loads the saved layout
-    ks.load();
+    ks.load();    // Loads the saved layout  
     break;
 
   case 's':
-    // saves the layout
-    ks.save();
+    ks.save();    // Saves the layout
     break;
   }
-}
+}// END OF KEYPRESSED =====================================================================================

@@ -45,7 +45,7 @@ void setup() {
 
   getValues(tables[7]);
 
-  timer = new Timer(00);
+  timer = new Timer(500);
   timer.start();
 } // End of setup()
 
